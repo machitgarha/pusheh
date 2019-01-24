@@ -16,7 +16,8 @@
     "license": "MIT",
     "readme": "README.md",
     "require": {
-        "php": "^7.0"
+        "php": "^7.0",
+        "webmozart/path-util": "^2.3"
     },
     "suggest": {
     },
