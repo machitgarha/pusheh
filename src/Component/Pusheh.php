@@ -19,4 +19,12 @@ class Pusheh
     {
         self::createDir($dirPath, $mode, true);
     }
+
+    public static function removeDir(string $dirPath)
+    {
+        if (@rmdir($dirPath))
+            return true;
+
+        throw new \Exception("Cannot remove $dirPath directory");
+    }
 }
