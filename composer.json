@@ -1,0 +1,27 @@
+{
+    "name": "machitgarha/pusheh",
+    "description": "Directory tools",
+    "authors": [
+        {
+            "name": "Mohammad Amin Chitgarha",
+            "email": "machitgarha@outlook.com",
+            "homepage": "https://github.com/machitgarha",
+            "role": "Creator"
+        }
+    ],
+    "homepage": "https://github.com/machitgarha/pusheh",
+    "keywords": [
+        "directory"
+    ],
+    "license": "MIT",
+    "readme": "README.md",
+    "require": {
+    },
+    "suggest": {
+    },
+    "autoload": {
+    },
+    "type": "library",
+    "require-dev": {
+    }
+}
