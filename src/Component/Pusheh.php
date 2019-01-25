@@ -57,7 +57,7 @@ class Pusheh
      * Clears contents of a directory, i.e. empty the directory.
      *
      * @param string $dirPath Directory path.
-     * @param bool $softLinks Doesn't allow symbolic links to remove the main directory contents.
+     * @param bool $softLinks Doesn't allow symbolic links to remove the main directory contents. This doesn't affect on the symbolic links inside the directory.
      * @return bool Returns true when the directory cleared successfully, or false if the directory is a link and soft links is on.
      * @throws \Exception When the specified path is not a directory.
      * @throws \Exception If one of the directory contents cannot be removed.
@@ -123,7 +123,7 @@ class Pusheh
             return unlink($dirPath);
 
         try {
-            self::clearDir($dirPath);
+            self::clearDir($dirPath, $softLinks);
         } catch (\Exception $e) {
             return false;
         }
