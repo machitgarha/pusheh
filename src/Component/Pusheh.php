@@ -44,6 +44,9 @@ class Pusheh
     {
         if ($recursive)
             self::removeDirRecursive($dirPath);
+        
+        if (!is_dir($dirPath))
+            return false;
 
         if (@rmdir($dirPath))
             return true;
