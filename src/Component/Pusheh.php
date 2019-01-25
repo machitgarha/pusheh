@@ -13,6 +13,7 @@ namespace MAChitgarha\Component;
  *
  * @todo Add a new method to get directory size.
  * @todo Add Github Wiki and Packagist link.
+ * @todo Add safe remove option to prevent removing /* things.
  */
 class Pusheh
 {
