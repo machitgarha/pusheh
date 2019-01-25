@@ -16,8 +16,7 @@
     "license": "MIT",
     "readme": "README.md",
     "require": {
-        "php": "^7.0",
-        "webmozart/path-util": "^2.3"
+        "php": "^7.0"
     },
     "suggest": {
     },
@@ -28,6 +27,7 @@
     },
     "type": "library",
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^7.5",
+        "webmozart/path-util": "^2.3"
     }
 }
