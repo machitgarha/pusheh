@@ -4,7 +4,6 @@ namespace MAChitgarha\Component;
 
 use Webmozart\PathUtil\Path;
 
-
 class Pusheh
 {
     public static function createDir(string $dirPath, int $mode = 0777, bool $recursive = true)
@@ -36,8 +35,10 @@ class Pusheh
 
     public static function removeDirRecursive(string $dirPath)
     {
+        if (!is_dir($dirPath))
+            return false;
+
         $dirIt = new \DirectoryIterator($dirPath);
-        $content;
         foreach ($dirIt as $content) {
             if ($content->isDot())
                 continue;
@@ -47,5 +48,7 @@ class Pusheh
                 unlink($content->getPathname());
         }
         self::removeDir($dirPath);
+
+        return true;
     }
 }
