@@ -8,7 +8,7 @@ use Webmozart\PathUtil\Path;
 
 class ExceptionTest extends TestCase
 {
-    protected static $testDirPath = __DIR__ . "/test";
+    protected static $testDirPath = __DIR__ . "/../data/test";
     protected static $testSubDirPath;
 
     public static function setUpBeforeClass()

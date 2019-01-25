@@ -10,7 +10,7 @@ class Pusheh
     {
         if (is_dir($dirPath))
             return false;
-        
+
         if (@mkdir($dirPath, $mode, $recursive))
             return true;
 
@@ -22,7 +22,7 @@ class Pusheh
         return self::createDir($dirPath, $mode, true);
     }
 
-    public static function clearDir(string $dirPath)
+    public static function clearDir(string $dirPath, int $options = 0)
     {
         if (!is_dir($dirPath))
             throw new \Exception("Directory $dirPath does not exist");
@@ -31,10 +31,10 @@ class Pusheh
         foreach ($dirIt as $content) {
             if ($content->isDot())
                 continue;
+            if ($content->isFile() || $content->isLink())
+                unlink($content->getPathname());
             if ($content->isDir())
                 self::removeDirRecursive($content->getPathname());
-            if ($content->isFile())
-                unlink($content->getPathname());
         }
 
         return true;
@@ -43,7 +43,7 @@ class Pusheh
     public static function removeDir(string $dirPath, bool $recursive = false)
     {
         if ($recursive)
-            self::removeDirRecursive($dirPath);
+            return self::removeDirRecursive($dirPath);
         
         if (!is_dir($dirPath))
             return false;
@@ -54,8 +54,11 @@ class Pusheh
         throw new \Exception("Cannot remove $dirPath directory");
     }
 
-    public static function removeDirRecursive(string $dirPath)
+    public static function removeDirRecursive(string $dirPath, bool $softLinks = true)
     {
+        if (is_link($dirPath) && $softLinks)
+            return unlink($dirPath);
+
         try {
             self::clearDir($dirPath);
         } catch (\Exception $e) {

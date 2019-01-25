@@ -7,27 +7,30 @@ use MAChitgarha\Component\Pusheh;
 
 class MethodTest extends TestCase
 {
+    protected static $testsDir = __DIR__ . "/../data";
+
     public static function setUpBeforeClass()
     {
-        Pusheh::createDirRecursive(__DIR__ . "/dir3/sub");
+        Pusheh::createDirRecursive(self::$testsDir . "/dir3/sub");
+
         $tmpFiles = [
             "something.txt",
             "another.php",
-            "love-dashes.c"
+            "bash-loves-dashes.c"
         ];
         foreach ($tmpFiles as $tmpFile)
-            touch(__DIR__ . "/dir3/$tmpFile");
+            touch(self::$testsDir . "/dir3/$tmpFile");
         foreach ($tmpFiles as $tmpFile)
-            touch(__DIR__ . "/dir3/sub/$tmpFile");
+            touch(self::$testsDir . "/dir3/sub/$tmpFile");
     }
 
     public function testCreateDir()
     {
         $this->assertFalse(Pusheh::createDir("."));
         $this->assertFalse(Pusheh::createDir(".."));
-        $this->assertTrue(Pusheh::createDir(__DIR__ . "/dir0"));
-        $this->assertTrue(Pusheh::createDir(__DIR__ . "/dir1", 0444));
-        $this->assertTrue(Pusheh::createDirRecursive(__DIR__ . "/dir2/sub"));
+        $this->assertTrue(Pusheh::createDir(self::$testsDir . "/dir0"));
+        $this->assertTrue(Pusheh::createDir(self::$testsDir . "/dir1", 0444));
+        $this->assertTrue(Pusheh::createDirRecursive(self::$testsDir . "/dir2/sub"));
     }
 
     /**
@@ -35,7 +38,9 @@ class MethodTest extends TestCase
      */
     public function testClearDir()
     {
-        $this->assertTrue(Pusheh::clearDir(__DIR__ . "/dir3"));
+        $this->assertTrue(Pusheh::clearDir(self::$testsDir . "/dir3"));
+        $this->assertTrue(Pusheh::clearDir(self::$testsDir . "/link"));
+        $this->assertFalse(file_exists(self::$testsDir . "/link/file.txt"));
     }
 
     /**
@@ -44,9 +49,18 @@ class MethodTest extends TestCase
     public function testRemoveDir()
     {
         self::setUpBeforeClass();
-        $this->assertFalse(Pusheh::removeDir(__DIR__ . "/dir-1"));
-        $this->assertFalse(Pusheh::removeDir(__DIR__ . "/dir-1/deep"));
-        foreach (glob(__DIR__ . "/dir*") as $dir)
+        touch(self::$testsDir . "/linked/test.txt");
+
+        $this->assertFalse(Pusheh::removeDir(self::$testsDir . "/dir-1"));
+        $this->assertFalse(Pusheh::removeDir(self::$testsDir . "/dir-1/deep"));
+        foreach (glob(self::$testsDir . "/dir*") as $dir)
             $this->assertTrue(Pusheh::removeDirRecursive($dir));
+        Pusheh::removeDirRecursive(self::$testsDir . "/link");
+        $this->assertTrue(file_exists(self::$testsDir . "/linked/test.txt"));
+    }
+
+    public static function tearDownAfterClass()
+    {
+        symlink(self::$testsDir . "/linked", self::$testsDir . "/link");
     }
 }
