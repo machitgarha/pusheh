@@ -25,7 +25,7 @@ class Pusheh
     public static function removeDir(string $dirPath, bool $recursive = false)
     {
         if ($recursive)
-            self::removeDirRecursive();
+            self::removeDirRecursive($dirPath);
 
         if (@rmdir($dirPath))
             return true;
