@@ -62,7 +62,7 @@ class Pusheh
      * @throws \Exception When the specified path is not a directory.
      * @throws \Exception If one of the directory contents cannot be removed.
      */
-    public static function clearDir(string $dirPath, bool $softLinks = true)
+    public static function clearDir(string $dirPath, bool $softLinks = false)
     {
         if (is_link($dirPath) && $softLinks)
             return false;
