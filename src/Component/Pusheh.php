@@ -8,8 +8,6 @@
 
 namespace MAChitgarha\Component;
 
-use Webmozart\PathUtil\Path;
-
 /**
  * Directory tools.
  * 
