@@ -1,7 +1,7 @@
 <?php
 /**
  * Pusheh class file.
- * 
+ *
  * @author Mohammad Amin Chitgarha <machitgarha@outlook.com>
  * @see https://github.com/MAChitgarha/Pusheh
  */
@@ -10,7 +10,7 @@ namespace MAChitgarha\Component;
 
 /**
  * Directory tools.
- * 
+ *
  * @todo Add a new method to get directory size.
  * @todo Add Github Wiki and Packagist link.
  */
@@ -27,18 +27,20 @@ class Pusheh
      */
     public static function createDir(string $dirPath, int $mode = 0777, bool $recursive = true)
     {
-        if (is_dir($dirPath))
+        if (is_dir($dirPath)) {
             return false;
+        }
 
-        if (@mkdir($dirPath, $mode, $recursive))
+        if (@mkdir($dirPath, $mode, $recursive)) {
             return true;
+        }
 
         throw new \Exception("Cannot create $dirPath directory");
     }
 
     /**
      * Creates a directory recursively.
-     * 
+     *
      * Creates nested directories, one by one, to reach the last one. In other words, creates every non-exist directory to reach the last one.
      *
      * @param string $dirPath Directory path.
@@ -62,22 +64,27 @@ class Pusheh
      */
     public static function clearDir(string $dirPath, bool $softLinks = false)
     {
-        if (is_link($dirPath) && $softLinks)
+        if (is_link($dirPath) && $softLinks) {
             return false;
+        }
 
-        if (!is_dir($dirPath))
+        if (!is_dir($dirPath)) {
             throw new \Exception("Directory $dirPath does not exist");
+        }
 
         // Iterate over the directory
         $dirIt = new \DirectoryIterator($dirPath);
         foreach ($dirIt as $content) {
-            if ($content->isDot())
+            if ($content->isDot()) {
                 continue;
-            if ($content->isFile() || $content->isLink())
+            }
+            if ($content->isFile() || $content->isLink()) {
                 unlink($content->getPathname());
+            }
             // Remove directories using recursion
-            if ($content->isDir())
+            if ($content->isDir()) {
                 self::removeDirRecursive($content->getPathname());
+            }
         }
 
         return true;
@@ -93,21 +100,24 @@ class Pusheh
      */
     public static function removeDir(string $dirPath, bool $recursive = false)
     {
-        if ($recursive)
+        if ($recursive) {
             return self::removeDirRecursive($dirPath);
+        }
         
-        if (!is_dir($dirPath))
+        if (!is_dir($dirPath)) {
             return false;
+        }
 
-        if (@rmdir($dirPath))
+        if (@rmdir($dirPath)) {
             return true;
+        }
 
         throw new \Exception("Cannot remove $dirPath directory");
     }
 
     /**
      * Removes a directory recursively.
-     * 
+     *
      * Removes a directory, even if is not empty (i.e. clear the directory before removing it).
      *
      * @param string $dirPath Directory path.
@@ -117,8 +127,9 @@ class Pusheh
      */
     public static function removeDirRecursive(string $dirPath, bool $softLinks = true)
     {
-        if (is_link($dirPath) && $softLinks)
+        if (is_link($dirPath) && $softLinks) {
             return unlink($dirPath);
+        }
 
         try {
             self::clearDir($dirPath, $softLinks);
