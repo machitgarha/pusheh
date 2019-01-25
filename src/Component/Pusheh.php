@@ -19,7 +19,7 @@ class Pusheh
 
     public static function createDirRecursive(string $dirPath, int $mode = 0777)
     {
-        self::createDir($dirPath, $mode, true);
+        return self::createDir($dirPath, $mode, true);
     }
 
     public static function clearDir(string $dirPath)
