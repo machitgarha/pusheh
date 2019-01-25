@@ -40,10 +40,22 @@ class ExceptionTest extends TestCase
 
     /**
      * Tests when a directory cannot be created.
+     * @dataProvider uncreatableDirectoryProvider
      */
-    public function testCreateDir()
+    public function testCreateDir(string $dirPath)
     {
-        Pusheh::createDir(self::$testSubDirPath);
+        Pusheh::createDir($dirPath);
+    }
+
+    /**
+     * Provider for directories that cannot be created and don't exist.
+     */
+    public function uncreatableDirectoryProvider()
+    {
+        return [
+            [Path::join(self::$testDirPath, "sub")],
+            [Path::join(self::$testDirPath, "testing/dir")],
+        ];
     }
 
     /**

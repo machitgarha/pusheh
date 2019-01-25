@@ -25,7 +25,7 @@ class Pusheh
      * @return bool Whether did directory exist or it has been created.
      * @throws \Exception When the directory cannot be created.
      */
-    public static function createDir(string $dirPath, int $mode = 0777, bool $recursive = true)
+    public static function createDir(string $dirPath, int $mode = 0777, bool $recursive = false)
     {
         if (is_dir($dirPath)) {
             return false;
