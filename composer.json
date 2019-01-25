@@ -1,6 +1,6 @@
 {
     "name": "machitgarha/pusheh",
-    "description": "Directory tools",
+    "description": "Directory tools, such as creating and removing directories",
     "authors": [
         {
             "name": "Mohammad Amin Chitgarha",
