@@ -22,7 +22,7 @@ class MethodTest extends TestCase
     /** @var string Path to the directory which tests must be done there. */
     protected static $testsPath = __DIR__ . "/../data";
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // Create a directory with some arbitrary files for the tests
         Pusheh::createDirRecursive(self::$testsPath . "/dir3/sub");
@@ -89,7 +89,7 @@ class MethodTest extends TestCase
         $this->assertTrue(file_exists(self::$testsPath . "/linked/test.txt"));
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         symlink(self::$testsPath . "/linked", self::$testsPath . "/link");
     }
