@@ -26,14 +26,14 @@ class ExceptionTest extends TestCase
     /** @var string Path to a sub-directory of the test directory. */
     protected static $testSubDirPath;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         mkdir(self::$testDirPath, 0000);
 
         self::$testSubDirPath = Path::join(self::$testDirPath, "sub");
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->expectException(\Exception::class);
     }
@@ -66,7 +66,7 @@ class ExceptionTest extends TestCase
         Pusheh::clearDir(self::$testSubDirPath);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         Pusheh::removeDir(self::$testDirPath);
     }
