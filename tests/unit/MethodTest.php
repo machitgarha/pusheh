@@ -13,6 +13,7 @@ namespace MAChitgarha\UnitTest\Pusheh;
 
 use PHPUnit\Framework\TestCase;
 use MAChitgarha\Component\Pusheh;
+use Webmozart\PathUtil\Path;
 
 /**
  * Tests all public methods.
@@ -91,6 +92,9 @@ class MethodTest extends TestCase
 
     public static function tearDownAfterClass(): void
     {
-        symlink(self::$testsPath . "/linked", self::$testsPath . "/link");
+        symlink(
+            Path::makeRelative(self::$testsPath . "/linked", __DIR__ . "/../data"),
+            self::$testsPath . "/link"
+        );
     }
 }
