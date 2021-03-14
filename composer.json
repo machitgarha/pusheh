@@ -1,6 +1,8 @@
 {
     "name": "machitgarha/pusheh",
     "description": "Directory tools, such as creating and removing directories",
+    "type": "library",
+    "homepage": "https://github.com/machitgarha/pusheh",
     "authors": [
         {
             "name": "Mohammad Amin Chitgarha",
@@ -9,24 +11,21 @@
             "role": "Creator"
         }
     ],
-    "homepage": "https://github.com/machitgarha/pusheh",
     "keywords": [
         "directory"
     ],
     "license": "MIT",
     "readme": "README.md",
-    "require": {
-        "php": "^7.0"
-    },
-    "suggest": {
-    },
     "autoload": {
         "psr-4": {
             "MAChitgarha\\": "src"
         }
     },
-    "type": "library",
+    "require": {
+        "php": "^7.0"
+    },
     "require-dev": {
+        "php": "^7.2",
         "phpunit/phpunit": "^9.0",
         "webmozart/path-util": "^2.3"
     }
