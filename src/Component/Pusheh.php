@@ -17,6 +17,8 @@ namespace MAChitgarha\Component;
  */
 class Pusheh
 {
+    public const DEFAULT_ACCESS_MODE = 0755;
+
     /**
      * Creates a directory.
      *
@@ -27,7 +29,7 @@ class Pusheh
      * @return bool Whether did directory exist or has been created.
      * @throws \Exception When the directory cannot be created.
      */
-    public static function createDir(string $dirPath, int $mode = 0777, bool $recursive = false)
+    public static function createDir(string $dirPath, int $mode = self::DEFAULT_ACCESS_MODE, bool $recursive = false)
     {
         if (\is_dir($dirPath)) {
             return false;
@@ -51,20 +53,19 @@ class Pusheh
      * @return bool Whether did directory exist or it has been created.
      * @throws \Exception When the directory cannot be created.
      */
-    public static function createDirRecursive(string $dirPath, int $mode = 0777)
+    public static function createDirRecursive(string $dirPath, int $mode = self::DEFAULT_ACCESS_MODE)
     {
         return self::createDir($dirPath, $mode, true);
     }
 
     /**
-     * Clears contents of a directory, i.e. empty the directory.
+     * Clears the contents of a directory.
      *
      * @param string $dirPath Directory path.
-     * @param bool $softLinks If enabled, doesn't allow symbolic links to remove the main
-     * directory contents. This doesn't affect the symbolic links inside
-     * the directory.
+     * @param bool $softLinks Soft links prevents from getting into the link.
+     * This doesn't affect the symbolic links inside the directory.
      * @return bool Returns true when the directory cleared successfully, or
-     * false if the directory is a link and soft links is on.
+     * false if the directory is a symbolic link and soft links is on.
      * @throws \Exception When the specified path is not a directory.
      * @throws \Exception If one of the directory contents cannot be removed.
      */
@@ -75,7 +76,7 @@ class Pusheh
         }
 
         if (!\is_dir($dirPath)) {
-            throw new \Exception("Directory $dirPath does not exist");
+            throw new \Exception("Directory '$dirPath' does not exist");
         }
 
         // Iterate over the directory
@@ -102,8 +103,7 @@ class Pusheh
      * @param string $dirPath Directory path.
      * @param boolean $recursive To remove the directory, if it's not empty.
      * {@see self::removeDirRecursive}
-     * @return bool Whether the directory removed, or the directory doesn't
-     * exit.
+     * @return bool Whether the directory has been removed or didn't exist.
      * @throws \Exception If the directory cannot be removed.
      */
     public static function removeDir(string $dirPath, bool $recursive = false)
@@ -130,15 +130,15 @@ class Pusheh
      * before removing it).
      *
      * @param string $dirPath Directory path.
-     * @param bool $softLinks Whether if it is a symbolic link, remove itself
-     * or remove the linked directory contents, also.
-     * @return bool Whether did directory exist or it has been created.
-     * @throws \Exception When the directory cannot be created.
+     * @param bool $softLinks Soft links prevents from getting into the link.
+     * This doesn't affect the symbolic links inside the directory.
+     * @return bool Whether the directory has been removed or didn't exist.
+     * @throws \Exception If the directory cannot be removed.
      */
     public static function removeDirRecursive(string $dirPath, bool $softLinks = true)
     {
         if (\is_link($dirPath) && $softLinks) {
-            return unlink($dirPath);
+            return \unlink($dirPath);
         }
 
         try {
