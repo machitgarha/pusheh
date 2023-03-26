@@ -13,7 +13,7 @@ namespace MAChitgarha\UnitTest\Pusheh;
 
 use PHPUnit\Framework\TestCase;
 use MAChitgarha\Component\Pusheh;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
 
 /**
  * Except \Exception in all of the cases.

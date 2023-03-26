@@ -13,26 +13,29 @@ namespace MAChitgarha\Component;
  *
  * @todo Add a new method to get directory size.
  * @todo Add Github Wiki and Packagist link.
- * @todo Add safe remove option to prevent removing /* things.
+ * @todo Add safe remove option to prevent removing things.
  */
 class Pusheh
 {
+    public const DEFAULT_ACCESS_MODE = 0755;
+
     /**
      * Creates a directory.
      *
      * @param string $dirPath Directory path.
      * @param integer $mode Directory access mode. {@see chmod()}
-     * @param bool $recursive Create directories nested and one by one. {@see self::createDirRecursive}
-     * @return bool Whether did directory exist or it has been created.
+     * @param bool $recursive Create directories nested and one by one.
+     * {@see self::createDirRecursive}
+     * @return bool Whether did directory exist or has been created.
      * @throws \Exception When the directory cannot be created.
      */
-    public static function createDir(string $dirPath, int $mode = 0777, bool $recursive = false)
+    public static function createDir(string $dirPath, int $mode = self::DEFAULT_ACCESS_MODE, bool $recursive = false)
     {
-        if (is_dir($dirPath)) {
+        if (\is_dir($dirPath)) {
             return false;
         }
 
-        if (@mkdir($dirPath, $mode, $recursive)) {
+        if (@\mkdir($dirPath, $mode, $recursive)) {
             return true;
         }
 
@@ -42,35 +45,38 @@ class Pusheh
     /**
      * Creates a directory recursively.
      *
-     * Creates nested directories, one by one, to reach the last one. In other words, creates every non-exist directory to reach the last one.
+     * Creates nested directories, one by one, to reach the last one. In other
+     * words, creates every non-exist directory to reach the last one.
      *
      * @param string $dirPath Directory path.
      * @param integer $mode Directory access mode. {@see chmod()}
      * @return bool Whether did directory exist or it has been created.
      * @throws \Exception When the directory cannot be created.
      */
-    public static function createDirRecursive(string $dirPath, int $mode = 0777)
+    public static function createDirRecursive(string $dirPath, int $mode = self::DEFAULT_ACCESS_MODE)
     {
         return self::createDir($dirPath, $mode, true);
     }
 
     /**
-     * Clears contents of a directory, i.e. empty the directory.
+     * Clears the contents of a directory.
      *
      * @param string $dirPath Directory path.
-     * @param bool $softLinks Doesn't allow symbolic links to remove the main directory contents. This doesn't affect on the symbolic links inside the directory.
-     * @return bool Returns true when the directory cleared successfully, or false if the directory is a link and soft links is on.
+     * @param bool $softLinks Soft links prevents from getting into the link.
+     * This doesn't affect the symbolic links inside the directory.
+     * @return bool Returns true when the directory cleared successfully, or
+     * false if the directory is a symbolic link and soft links is on.
      * @throws \Exception When the specified path is not a directory.
      * @throws \Exception If one of the directory contents cannot be removed.
      */
-    public static function clearDir(string $dirPath, bool $softLinks = false)
+    public static function clearDir(string $dirPath, bool $softLinks = false): bool
     {
-        if (is_link($dirPath) && $softLinks) {
+        if (\is_link($dirPath) && $softLinks) {
             return false;
         }
 
-        if (!is_dir($dirPath)) {
-            throw new \Exception("Directory $dirPath does not exist");
+        if (!\is_dir($dirPath)) {
+            throw new \Exception("Directory '$dirPath' does not exist");
         }
 
         // Iterate over the directory
@@ -80,7 +86,7 @@ class Pusheh
                 continue;
             }
             if ($content->isFile() || $content->isLink()) {
-                unlink($content->getPathname());
+                \unlink($content->getPathname());
             }
             // Remove directories using recursion
             if ($content->isDir()) {
@@ -95,8 +101,9 @@ class Pusheh
      * Removes a directory.
      *
      * @param string $dirPath Directory path.
-     * @param boolean $recursive To remove the directory, if it's not empty. {@see self::removeDirRecursive}
-     * @return bool Whether the directory removed, or the directory doesn't exit.
+     * @param boolean $recursive To remove the directory, if it's not empty.
+     * {@see self::removeDirRecursive}
+     * @return bool Whether the directory has been removed or didn't exist.
      * @throws \Exception If the directory cannot be removed.
      */
     public static function removeDir(string $dirPath, bool $recursive = false)
@@ -104,12 +111,12 @@ class Pusheh
         if ($recursive) {
             return self::removeDirRecursive($dirPath);
         }
-        
-        if (!is_dir($dirPath)) {
+
+        if (!\is_dir($dirPath)) {
             return false;
         }
 
-        if (@rmdir($dirPath)) {
+        if (@\rmdir($dirPath)) {
             return true;
         }
 
@@ -119,17 +126,19 @@ class Pusheh
     /**
      * Removes a directory recursively.
      *
-     * Removes a directory, even if is not empty (i.e. clear the directory before removing it).
+     * Removes a directory, even if is not empty (i.e. clears the directory
+     * before removing it).
      *
      * @param string $dirPath Directory path.
-     * @param bool $softLinks Whether if it is a symbolic link, remove itself or remove the linked directory contents, also.
-     * @return bool Whether did directory exist or it has been created.
-     * @throws \Exception When the directory cannot be created.
+     * @param bool $softLinks Soft links prevents from getting into the link.
+     * This doesn't affect the symbolic links inside the directory.
+     * @return bool Whether the directory has been removed or didn't exist.
+     * @throws \Exception If the directory cannot be removed.
      */
     public static function removeDirRecursive(string $dirPath, bool $softLinks = true)
     {
-        if (is_link($dirPath) && $softLinks) {
-            return unlink($dirPath);
+        if (\is_link($dirPath) && $softLinks) {
+            return \unlink($dirPath);
         }
 
         try {
